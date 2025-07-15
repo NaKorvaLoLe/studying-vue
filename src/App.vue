@@ -2,31 +2,49 @@
 export default {
   data() {
     return {
-      title: "Hello World",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo similique mollitia aperiam quo veniam labore inventore quos commodi dignissimos ex iusto architecto aspernatur unde, obcaecati quisquam aliquid sed excepturi ea.",
+      users: [],
+      error: "",
+      userName: "",
+      userEmail: "",
+      userPass: "",
     };
   },
   methods: {
-    send(word) {
-      this.title = "new title";
-      this.content = word;
+    sendData() {
+      if (this.userName == "") {
+        this.error = "Введите имя";
+        return;
+      } else if (this.userEmail == "") {
+        this.error = "Введите e-mail";
+        return;
+      } else if (this.userPass == "") {
+        this.error = "Введите пароль";
+        return;
+      }
+      this.error = "";
+      this.users.push({
+        name: this.userName,
+        email: this.userEmail,
+        pass: this.userPass,
+      });
     },
   },
 };
 </script>
 
 <template>
-  <h3>{{ title }}</h3>
-  <p>{{ content }}</p>
-  <button type="button" @click="send('some text')">Send</button>
+  <input type="text" v-model="userName" placeholder="Имя" />
+  <input type="email" v-model="userEmail" placeholder="E-mail" />
+  <input type="password" v-model="userPass" placeholder="Пароль" />
+  <p className="error">{{ error }}</p>
+  <button @click="sendData()">отправить</button>
+  <div v-if="users.length == 0">Нет пользоаптелей</div>
+  <div v-else-if="users.length == 1">1 gjkmpjfdfntkm</div>
+  <div v-else>more 1 elem</div>
+  <div v-for="(el, index) in users" :key="index">
+    <span>{{ el.name }}</span> | <span>{{ el.email }}</span> |
+    <span>{{ el.pass }}</span>
+  </div>
 </template>
 
-<style scoped>
-h3 {
-  font-weight: 600;
-}
-p {
-  color: #b398ff;
-}
-</style>
+<style scoped></style>
